@@ -20,8 +20,25 @@ public class TreeProblems {
    */
   
   public static Set<Integer> different(Set<Integer> setA, Set<Integer> setB) {
+    // Create temporary TreeSets for elements specific to each set
+    Set<Integer> specificToA = new TreeSet<>(setA);
+    Set<Integer> specificToB = new TreeSet<>(setB);
 
-    return setA;
+    // Find elements present in both sets and creating a set for common elements
+    Set<Integer> sharedElements = new TreeSet<>(setA);
+    sharedElements.retainAll(setB); // Retain only elements that are in both sets
+
+    // Remove common elements from TreeSets specificToA and specificToB
+    specificToA.removeAll(sharedElements);
+    specificToB.removeAll(sharedElements);
+
+    // Create a new set to hold the combined unique elements from both sets
+    Set<Integer> newSet = new TreeSet<>();
+    newSet.addAll(specificToA); // Add elements that are only in setA
+    newSet.addAll(specificToB); // Add elements that are only in setB
+
+    // Return the final set containing all distinct elements
+    return newSet;
   }
 
 
