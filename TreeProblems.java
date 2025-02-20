@@ -39,10 +39,18 @@ public class TreeProblems {
    */
 
   public static void removeEven(Map<Integer, String> treeMap) {
+    // Create an iterator for the entry set of the TreeMap to allow us to traverse through it.
+    Iterator<Map.Entry<Integer, String>> iterator = treeMap.entrySet().iterator();
 
-    // INSERT CODE HERE.
-
-    return;
+    // Loop through as long as there are more elements in the iterator
+    while (iterator.hasNext()) {
+      // Retrieve the next Key, Value pair
+      Map.Entry<Integer, String> entry = iterator.next();
+      // Remove the entry if the key is even
+      if (entry.getKey() % 2 == 0) {
+        iterator.remove();
+      }
+    }
   }
 
 
