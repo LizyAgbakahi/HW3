@@ -69,16 +69,43 @@ class Node {
 class LUC_AVLTree {
     private Node rootNode;           // The root node of the AVL Tree
 
-    public LUC_AVLTree()              { rootNode = null; }       // Constructor
-    public void removeAll()           { rootNode = null; }       // Make tree empty
-    public boolean checkEmpty()       { if (rootNode == null) return true; else return false; }
-    public void insert(int value)     { rootNode = insertElement(value, rootNode); }
-    public void delete(int value)     { rootNode = deleteElement(value, rootNode); }
-    public String preorderTraversal() { return preorderTraversal(rootNode); }
+    public LUC_AVLTree() {
+        rootNode = null;
+    }       // Constructor
 
-    private boolean isTreeBalanced()   { return isTreeBalanced(rootNode); }
-    private boolean isBST()            { return isBST(rootNode); }
-    private int getHeight(Node node)  { return node == null ? -1 : node.height; }
+    public void removeAll() {
+        rootNode = null;
+    }       // Make tree empty
+
+    public boolean checkEmpty() {
+        if (rootNode == null) return true;
+        else return false;
+    }
+
+    public void insert(int value) {
+        rootNode = insertElement(value, rootNode);
+    }
+
+    public void delete(int value) {
+        rootNode = deleteElement(value, rootNode);
+    }
+
+    public String preorderTraversal() {
+        return preorderTraversal(rootNode);
+    }
+
+    private boolean isTreeBalanced() {
+        return isTreeBalanced(rootNode);
+    }
+
+    private boolean isBST() {
+        return isBST(rootNode);
+    }
+
+    private int getHeight(Node node) {
+        return node == null ? -1 : node.height;
+    }
+
     private int getMaxHeight(int leftNodeHeight, int rightNodeHeight) {
         return leftNodeHeight > rightNodeHeight ? leftNodeHeight : rightNodeHeight;
     }
@@ -86,13 +113,12 @@ class LUC_AVLTree {
 
     /**
      * Method isTreeBalanced
-     *
-     * isTreeBalanced() is private method which uses recursion based on 
-     * preorder traversal to determine if an AVL [sub]tree is balanced. For 
+     * <p>
+     * isTreeBalanced() is private method which uses recursion based on
+     * preorder traversal to determine if an AVL [sub]tree is balanced. For
      * an AVL tree to be balanced, every node must have a |bf| <= 1
      *
      * @param node - the top of the [sub]tree to check
-     *
      * @return boolean [true if balanced, else false]
      */
 
@@ -100,7 +126,7 @@ class LUC_AVLTree {
         if (node == null)
             return true;
 
-        int leftSubTree  = getHeight(node.leftChild)  + 1;
+        int leftSubTree = getHeight(node.leftChild) + 1;
         int rightSubTree = getHeight(node.rightChild) + 1;
 
         // Calculate the bf
@@ -111,29 +137,29 @@ class LUC_AVLTree {
     }
 
     /**
-     *  Method isBST 
-     *
-     *  The method determines if a supplied tree node meets the requirements of
-     *  of a Binary Search Tree (BST)
-     *
-     *  Return true for meeting BST requirements, else false
+     * Method isBST
+     * <p>
+     * The method determines if a supplied tree node meets the requirements of
+     * of a Binary Search Tree (BST)
+     * <p>
+     * Return true for meeting BST requirements, else false
      */
 
-    private boolean isBST( Node node) {
+    private boolean isBST(Node node) {
 
-        if (node == null) 
+        if (node == null)
             return true;
 
         // false if the max value of the left subtree is > than us
-        if ( (node.leftChild != null) && (maxValue(node.leftChild) > node.value) )     
+        if ((node.leftChild != null) && (maxValue(node.leftChild) > node.value))
             return false;
 
         // false if the min value of the right subtree is <= than us
-        if ( (node.rightChild != null) && (minValue(node.rightChild) < node.value) )
+        if ((node.rightChild != null) && (minValue(node.rightChild) < node.value))
             return false;
 
         // false if, recursively, the left or right is not a BST
-        if ( ( ! isBST(node.leftChild) ) || ( ! isBST(node.rightChild) ) )                     
+        if ((!isBST(node.leftChild)) || (!isBST(node.rightChild)))
             return false;
 
         return true;
@@ -141,51 +167,49 @@ class LUC_AVLTree {
 
 
     /**
-     *  Return max value of subtree below node (uses recursion).
+     * Return max value of subtree below node (uses recursion).
      */
 
     private int maxValue(Node node) {
-      
-        if (node == null) 
-            return  Integer.MIN_VALUE;
 
-        int value    = node.value;
-        int leftMax  = maxValue(node.leftChild);
+        if (node == null)
+            return Integer.MIN_VALUE;
+
+        int value = node.value;
+        int leftMax = maxValue(node.leftChild);
         int rightMax = maxValue(node.rightChild);
 
         return Math.max(value, Math.max(leftMax, rightMax));
     }
 
     /**
-     *  Return min value of subtree below node (uses recursion).
+     * Return min value of subtree below node (uses recursion).
      */
 
     private int minValue(Node node) {
-      
-        if (node == null) 
+
+        if (node == null)
             return Integer.MAX_VALUE;
 
-        int value    = node.value;
-        int leftMin  = minValue(node.leftChild);
+        int value = node.value;
+        int leftMin = minValue(node.leftChild);
         int rightMin = minValue(node.rightChild);
 
         return Math.max(value, Math.max(leftMin, rightMin));
     }
 
 
-
     /**
-     *  Method preorderTraversal
+     * Method preorderTraversal
+     * <p>
+     * prorderTraversal() is a private method that uses recursion. It prints the
+     * [sub]tree using an preorder traversal method. For each node printed, it
+     * prints the pair "[X, Y]" where X represents the value of the node, and Y
+     * represents the node's height in the tree. Think of the node's height as the
+     * number of edges to the deepest leaf of that node.
      *
-     *  prorderTraversal() is a private method that uses recursion. It prints the
-     *  [sub]tree using an preorder traversal method. For each node printed, it
-     *  prints the pair "[X, Y]" where X represents the value of the node, and Y
-     *  represents the node's height in the tree. Think of the node's height as the
-     *  number of edges to the deepest leaf of that node.
-     *
-     *  @param node - the [sub]tree to start the preorder traversal
-     *
-     *  @return void
+     * @param node - the [sub]tree to start the preorder traversal
+     * @return void
      */
 
     private String preorderTraversal(Node node) {
@@ -198,29 +222,28 @@ class LUC_AVLTree {
 
 
     /**
-     *  Method: InsertElement
+     * Method: InsertElement
+     * <p>
+     * insertElement() is private method that uses recursion. It will insert a
+     * new element in the tree as a leaf. And, as this function returns through
+     * recursion, each ancestor's node's balance factor (bf) is re-checked. If
+     * at each ancestor node, the |bf| > 1, the appropriate rotation (LL, LR,
+     * RR, or RL) is performed in order to bring that node's  |bf| <= 1.
+     * <p>
+     * The only nodes that need to have their bf re-checked are the direct
+     * ancestor nodes of the newly inserted node, all the way back to the root
+     * node. Any of these nodes may now be out of balanced due to this newly
+     * inserted node causing a rotation to be required.
+     * <p>
+     * Additionally, as this method returns through recursion, it
+     * 1. re-adjusts the 'height' variable in each ancestor's node. And,
+     * 2. returns the current node. If a rotation is done, then this top node
+     * will change. This allows, through recursion, the invoker to readjust
+     * the parent's child pointer to this returned node.
      *
-     *  insertElement() is private method that uses recursion. It will insert a
-     *  new element in the tree as a leaf. And, as this function returns through
-     *  recursion, each ancestor's node's balance factor (bf) is re-checked. If
-     *  at each ancestor node, the |bf| > 1, the appropriate rotation (LL, LR, 
-     *  RR, or RL) is performed in order to bring that node's  |bf| <= 1. 
-     *  
-     *  The only nodes that need to have their bf re-checked are the direct 
-     *  ancestor nodes of the newly inserted node, all the way back to the root
-     *  node. Any of these nodes may now be out of balanced due to this newly 
-     *  inserted node causing a rotation to be required.
-     *
-     *  Additionally, as this method returns through recursion, it
-     *   1. re-adjusts the 'height' variable in each ancestor's node. And,
-     *   2. returns the current node. If a rotation is done, then this top node
-     *      will change. This allows, through recursion, the invoker to readjust 
-     *      the parent's child pointer to this returned node.
-     *
-     *  @param value - the value to insert below node
-     *  @param node  - the top node where to insert the value at.
-     *
-     *  @return node - the new top of subtree; possibly changed due to a rotation
+     * @param value - the value to insert below node
+     * @param node  - the top node where to insert the value at.
+     * @return node - the new top of subtree; possibly changed due to a rotation
      */
 
     private Node insertElement(int value, Node node) {
@@ -233,16 +256,16 @@ class LUC_AVLTree {
         }
 
         /*
-         * If the inserting 'value' is less than the current node's value, then 
-         * we are inserting to the LEFT of this node, else we are inserting to 
+         * If the inserting 'value' is less than the current node's value, then
+         * we are inserting to the LEFT of this node, else we are inserting to
          * the RIGHT of it.
          *
-         * This AVL tree does not allow duplicates, so do nothing if one is 
-         * found. Normally, we should throw an error indicating the application 
+         * This AVL tree does not allow duplicates, so do nothing if one is
+         * found. Normally, we should throw an error indicating the application
          * tried to insert a duplicate.
          *
-         * Last, note that If a rotation occurred  during an insert in this 
-         * node's subtree, then we need to adjust this node's pointer to the 
+         * Last, note that If a rotation occurred  during an insert in this
+         * node's subtree, then we need to adjust this node's pointer to the
          * new top of that subtree.
          */
         if (value < node.value) {
@@ -260,14 +283,14 @@ class LUC_AVLTree {
                 else
                     node = LRRotation(node);
             }
-        } else if (value > node.value ) {
+        } else if (value > node.value) {
 
             // Inserting to the right...
             node.rightChild = insertElement(value, node.rightChild);
             int bf = getBalanceFactor(node);
 
             // Check bf and if a RR or RL Rotation is needed
-            if (Math.abs(bf) > 1 ) {
+            if (Math.abs(bf) > 1) {
                 // Re-balance needed, check if inserted to the right or 
                 // left of child.
                 if (value > node.rightChild.value)
@@ -279,104 +302,140 @@ class LUC_AVLTree {
             ; // value is duplicate, do nothing.
 
         /*
-         * Re-adjust current node's height, this will also be done for each 
-         * ancestor node (if one exists) as we return through recursion. If 
-         * one or more rotations occurred, then the node's height would have 
-         * changed. Doing so, will re-adjust the height of each ancestor node 
+         * Re-adjust current node's height, this will also be done for each
+         * ancestor node (if one exists) as we return through recursion. If
+         * one or more rotations occurred, then the node's height would have
+         * changed. Doing so, will re-adjust the height of each ancestor node
          * through to the root.
          */
-      
-        node.height = (getMaxHeight( getHeight(node.leftChild), getHeight(node.rightChild))) + 1;
+
+        node.height = (getMaxHeight(getHeight(node.leftChild), getHeight(node.rightChild))) + 1;
 
         return node;
     }
 
 
     /**
-     *  Method deleteElement
+     * Method deleteElement
+     * <p>
+     * deleteElement() is private method that uses recursion. It will delete
+     * an element within the tree. It considers several scenarios on where the
+     * element to delete is in the tree.
+     * <p>
+     * This includes the following scenarios of where the node to delete is
+     * in the tree:
+     * 1. leaf node - simpliest case, just return null (which removes node)
+     * 2. interior node with only left subtree below it (node gets replaced
+     * with left subtree)
+     * 3. interior node with only right subtree below it (node gets replaced
+     * with right subtree)
+     * 4. interior node with both a left and right subtree below it. In this
+     * scenario, it gets the inorder successor node (aka, the smallest
+     * value node in the right subtree, this is accomplished by using
+     * method minValueNode()). Once found, it then copies the inorder
+     * successor node's value to this node, which for all purposes deletes
+     * the node. Finally, it needs to delete that inorder successor node
+     * from the right subtree.
+     * <p>
+     * When deleting a node, the heights need to be recalculated, including on
+     * all ancestor nodes to the root. And for each node, if the bf is > 1, a
+     * rotation is needed.
+     * <p>
+     * So, scenario 1 from above, we simply remove the leaf node and
+     * recalculates the heights of each of its ancestors back to the root.
+     * <p>
+     * On scenarios 2 and 3, we simply pull up the appropriate subtree to
+     * replace the deleted node and recalculate the height for this node and
+     * each of its ancestors back to the root.
+     * <p>
+     * In scenario 4, the routine pulls up (and deletes) the "Inorder
+     * Successor" node on its right subtree. It will be a leaf node.
+     * <p>
+     * This node (and its ancestors nodes) may need re-balancing; so the bf
+     * is checked at the end of this routine and if needing re-balancing, it
+     * invokes the proper rotation (LL, LR, RR, RL).
+     * <p>
+     * Again, the heights for each of its ancestor nodes are re-recalculate
+     * to the root.
      *
-     *  deleteElement() is private method that uses recursion. It will delete 
-     *  an element within the tree. It considers several scenarios on where the 
-     *  element to delete is in the tree.
-     *
-     *  This includes the following scenarios of where the node to delete is 
-     *  in the tree:
-     *    1. leaf node - simpliest case, just return null (which removes node)
-     *    2. interior node with only left subtree below it (node gets replaced 
-     *       with left subtree)
-     *    3. interior node with only right subtree below it (node gets replaced
-     *       with right subtree)
-     *    4. interior node with both a left and right subtree below it. In this
-     *       scenario, it gets the inorder successor node (aka, the smallest 
-     *       value node in the right subtree, this is accomplished by using 
-     *       method minValueNode()). Once found, it then copies the inorder
-     *       successor node's value to this node, which for all purposes deletes 
-     *       the node. Finally, it needs to delete that inorder successor node 
-     *       from the right subtree.
-     *
-     *  When deleting a node, the heights need to be recalculated, including on 
-     *  all ancestor nodes to the root. And for each node, if the bf is > 1, a 
-     *  rotation is needed.
-     *
-     *  So, scenario 1 from above, we simply remove the leaf node and 
-     *  recalculates the heights of each of its ancestors back to the root. 
-     * 
-     *  On scenarios 2 and 3, we simply pull up the appropriate subtree to 
-     *  replace the deleted node and recalculate the height for this node and 
-     *  each of its ancestors back to the root.
-     *
-     *  In scenario 4, the routine pulls up (and deletes) the "Inorder 
-     *  Successor" node on its right subtree. It will be a leaf node. 
-     * 
-     *  This node (and its ancestors nodes) may need re-balancing; so the bf 
-     *  is checked at the end of this routine and if needing re-balancing, it 
-     *  invokes the proper rotation (LL, LR, RR, RL).
-     *
-     *  Again, the heights for each of its ancestor nodes are re-recalculate 
-     *  to the root.
-     *
-     *  @param value - the value to delete from the tree
-     *  @param node  - the top node of the [sub]tree where the delete will occur
-     *
-     *  @return node - new top of subtree, it possibly changed due to a rotation
+     * @param value - the value to delete from the tree
+     * @param node  - the top node of the [sub]tree where the delete will occur
+     * @return node - new top of subtree, it possibly changed due to a rotation
      */
 
     private Node deleteElement(int value, Node node) {
+        // Base case: if the node is null, return null
+        if (node == null) {
+            return null;
+        }
 
-        /*
-         * ADD CODE HERE
-         * 
-         * NOTE, that you should use the existing coded private methods
-         * in this file, which include:
-         *      - minValueNode,
-         *      - getMaxHeight,
-         *      - getHeight,
-         *      - getBalanceFactor,
-         *      - LLRotation
-         *      - RRRotation,
-         *      - LRRotation,
-         *      - RLRotation.
+        // If the value to delete is smaller, search in the left subtree recursively
+        if (value < node.value) {
+            node.leftChild = deleteElement(value, node.leftChild);
+        }
+
+        // If the value to delete is greater, search in the right subtree recursively
+        else if (value > node.value) {
+            node.rightChild = deleteElement(value, node.rightChild);
+        }
+        // If the value matches, this is the node to delete
+        else {
+            // Case 1: No children (leaf node)
+            if (node.leftChild == null && node.rightChild == null) {
+                return null;
+            }
+            // Case 2: One child (left or right)
+            else if (node.leftChild == null || node.rightChild == null) {
+                return (node.leftChild != null) ? node.leftChild : node.rightChild;
+            }
+            // Case 3: Two children
+            else {
+                // Get the in-order successor (smallest value in right subtree)
+                Node successor = minValueNode(node.rightChild);
+                node.value = successor.value; // Replace value with successor
+                node.rightChild = deleteElement(successor.value, node.rightChild); // Delete successor
+            }
+        }
+
+        // Update height
+        node.height = 1 + getMaxHeight(getHeight(node.leftChild), getHeight(node.rightChild));
+
+        // Check balance factor to determine if rebalancing is needed
+        int balance = getBalanceFactor(node);
+
+        // Left-heavy cases
+        if (balance > 1) {
+            if (getBalanceFactor(node.leftChild) >= 0) {
+                return LLRotation(node); // Left-left case (single right rotation)
+            } else {
+                return LRRotation(node); // Left-right case (left then right rotation)
+            }
+        }
+
+        // Right-heavy cases
+        if (balance < -1) {
+            if (getBalanceFactor(node.rightChild) <= 0) {
+                return RRRotation(node); // Right-right case (single left rotation)
+            } else {
+                return RLRotation(node); // Right-left case (right then left rotation)
+                }
+            }
+
+            return node; // Return updated node
+        }
+
+
+        /**
+         *  Method getBalance
          *
-         * To understand what each of these methods do, see the method prologues and
-         * code for each. You can also look at the method InsertElement, as it has do
-         * do many of the same things as this method.
+         *  getBalance() is a private method that returns the balance factor (bf)
+         *  of a node. If the return value is within the set {1, 0, -1} then it is
+         *  balanced. If it is out of the range, then the node is unbalanced.
+         *
+         *  @param: node - the node to check its bf
+         *
+         *  @return: bf - an integer indicating the node's bf
          */
-
-        return node;
-    }
-
-
-    /**
-     *  Method getBalance
-     *
-     *  getBalance() is a private method that returns the balance factor (bf) 
-     *  of a node. If the return value is within the set {1, 0, -1} then it is 
-     *  balanced. If it is out of the range, then the node is unbalanced.
-     *
-     *  @param: node - the node to check its bf
-     *
-     *  @return: bf - an integer indicating the node's bf
-     */
 
     private int getBalanceFactor(Node node) {
         if (node == null) return 0;
