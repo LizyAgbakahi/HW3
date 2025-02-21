@@ -1,6 +1,6 @@
 
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * Lizy Agbakahi COMP 400C Spring 2025
  *
  * This java file is a Java object implementing simple AVL Tree.
  * You are to complete the deleteElement method.
